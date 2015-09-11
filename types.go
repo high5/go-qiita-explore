@@ -2,7 +2,13 @@ package explore
 
 import (
 	"github.com/PuerkitoBio/goquery"
-	//"net/url"
+	"net/url"
+)
+
+
+const (
+	baseHost       = "http://qiita.com"
+	basePath       = "/tags/"
 )
 
 type Explore struct {
@@ -11,13 +17,11 @@ type Explore struct {
 
 
 type Article struct {
-	Name           string
-	Owner          string
-	RepositoryName string
-	Description    string
-	Language       string
-	Stars          int
-	//URL            *url.URL
-	//ContributerURL *url.URL
-	//Contributer    []Developer
+	ArticleTitle    string
+	ArtiClePath     string
+	ArticleURL     *url.URL
+	UserName       string
+	UserPath       string
+	UserURL        *url.URL
+	StockCount     int
 }
