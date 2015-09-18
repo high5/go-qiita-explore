@@ -3,22 +3,27 @@ package explore
 import (
 	"github.com/PuerkitoBio/goquery"
 	"net/url"
-	//"regexp"
 	"strconv"
 	"strings"
 )
 
 // explore := explore.NewExplore()
-
+// initialize method
 func NewExplore() *Explore {
 	t := Explore{}
 	return &t
 }
 
-func (t *Explore) GetArticles(tag string, category string) ([]Article, error) {
+func (t *Explore) GetArticles(tag string, category string, page ...int) ([]Article, error) {
 	var articles []Article
 
-	u, err := t.generateURL(tag, category)
+	var pageQuery int = 1
+
+  if (len(page) > 0) {
+		pageQuery = page[0]
+	}
+
+	u, err := t.generateURL(tag, category, pageQuery)
   if err != nil {
 		return articles, err
 	}
@@ -29,7 +34,7 @@ func (t *Explore) GetArticles(tag string, category string) ([]Article, error) {
 	}
 
 	doc.Find("article").Each(func(i int, s *goquery.Selection) {
-		articleTitle := t.trim(s.Find(".publicItem_body a").Text())
+		articleTitle := t.trim(s.Find(".publicItem_body a").First().Text())
 	  articlePath, articleExists := s.Find(".publicItem_body a").First().Attr("href")
 		articleURL := t.appendBaseHostToPath(articlePath, articleExists)
 
@@ -84,8 +89,8 @@ func (t *Explore) trim(name string) string {
 	return strings.Join(trimmedNameParts, "")
 }
 
-func (t *Explore) generateURL(tag string, category string) (*url.URL, error) {
-	parseURL := baseHost + basePath + tag + "/" + category
+func (t *Explore) generateURL(tag string, category string, page int) (*url.URL, error) {
+	parseURL := baseHost + basePath + tag + "/" + category + "?page=" + strconv.Itoa(page)
 
 	u, err := url.Parse(parseURL)
 	if err != nil {
