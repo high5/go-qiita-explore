@@ -20,6 +20,7 @@ type Article struct {
 	ArticleTitle    string
 	ArtiClePath     string
 	ArticleURL     *url.URL
+	Tags           []string
 	UserName       string
 	UserPath       string
 	UserURL        *url.URL

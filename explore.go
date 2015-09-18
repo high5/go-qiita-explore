@@ -54,6 +54,14 @@ func (t *Explore) GetArticles(tag string, category string, page ...int) ([]Artic
 	  articlePath, articleExists := s.Find(".publicItem_body a").First().Attr("href")
 		articleURL := t.appendBaseHostToPath(articlePath, articleExists)
 
+		//println(s.Find(".tagList_item a").First().Text())
+		//hoge := s.Find(".tagList_item a")
+		var tags []string
+
+		s.Find(".tagList_item a").Each(func(i int, s *goquery.Selection) {
+			tags = append(tags, s.Text())
+		})
+
 		userName := t.trim(s.Find(".publicItem_status a").Text())
 		userPath, userExists := s.Find(".publicItem_status a").First().Attr("href")
 		userURL := t.appendBaseHostToPath(userPath, userExists)
@@ -67,6 +75,7 @@ func (t *Explore) GetArticles(tag string, category string, page ...int) ([]Artic
 			ArticleTitle: articleTitle,
 			ArtiClePath: articlePath,
 			ArticleURL:  articleURL,
+			Tags: tags,
 			UserName:    userName,
 			UserPath:    userPath,
 			UserURL:     userURL,
