@@ -14,6 +14,14 @@ func NewExplore() *Explore {
 	return &t
 }
 
+func (t *Explore) GetStocks(tag string, page ...int) ([]Article, error) {
+	var pageQuery int = 1
+  if (len(page) > 0) {
+		pageQuery = page[0]
+	}
+	return t.GetArticles(tag, "stocks", pageQuery)
+}
+
 func (t *Explore) GetArticles(tag string, category string, page ...int) ([]Article, error) {
 	var articles []Article
 
