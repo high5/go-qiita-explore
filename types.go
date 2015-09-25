@@ -7,8 +7,8 @@ import (
 
 // Internal used constants related to qiita`s website / structure.
 const (
-	baseHost       = "http://qiita.com"
-	basePath       = "/tags/"
+	baseHost = "http://qiita.com"
+	basePath = "/tags/"
 )
 
 // Explore reflects the main datastructure of this package.
@@ -30,7 +30,6 @@ type Explore struct {
 	document *goquery.Document
 }
 
-
 // Article provides information as printed on the source website http://qiita.com/tags/{tag}/stocks and http://qiita.com/tags/{tag}/items.
 // Title is the title of the article. "中規模Web開発のためのMVC分割とレイヤアーキテクチャ"
 // Path is the path of the article. "/yuku_t/items/961194a5443b618a4cac"
@@ -41,12 +40,12 @@ type Explore struct {
 // User is the http address of the user page of the article reflected as url.URL datastructure like "http://qiita.com/yuku_t".
 // StockCount is the number of qiita stock.
 type Article struct {
-	Title    string
-	Path     string
-	URL     *url.URL
-	Tags           []string
-	UserName       string
-	UserPath       string
-	UserURL        *url.URL
-	StockCount     int
+	Title      string
+	Path       string
+	URL        *url.URL
+	Tags       []string
+	UserName   string
+	UserPath   string
+	UserURL    *url.URL
+	StockCount int
 }

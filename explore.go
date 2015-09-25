@@ -29,7 +29,7 @@ func NewExplore() *Explore {
 // page can be filtered by applying by one page of pagers. If an empty int will be applied first page (1) will be the default.
 func (t *Explore) GetStocks(tag string, page ...int) ([]Article, error) {
 	var pageQuery int = 1
-  if (len(page) > 0) {
+	if len(page) > 0 {
 		pageQuery = page[0]
 	}
 	return t.getArticles(tag, "stocks", pageQuery)
@@ -40,24 +40,23 @@ func (t *Explore) GetStocks(tag string, page ...int) ([]Article, error) {
 // page can be filtered by applying by one page of pagers. If an empty int will be applied first page (1) will be the default.
 func (t *Explore) GetItems(tag string, page ...int) ([]Article, error) {
 	var pageQuery int = 1
-  if (len(page) > 0) {
+	if len(page) > 0 {
 		pageQuery = page[0]
 	}
 	return t.getArticles(tag, "items", pageQuery)
 }
-
 
 func (t *Explore) getArticles(tag string, category string, page ...int) ([]Article, error) {
 	var articles []Article
 
 	var pageQuery int = 1
 
-  if (len(page) > 0) {
+	if len(page) > 0 {
 		pageQuery = page[0]
 	}
 
 	u, err := t.generateURL(tag, category, pageQuery)
-  if err != nil {
+	if err != nil {
 		return articles, err
 	}
 
@@ -68,7 +67,7 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 
 	doc.Find("article").Each(func(i int, s *goquery.Selection) {
 		title := t.trim(s.Find(".publicItem_body a").First().Text())
-	  path, articleExists := s.Find(".publicItem_body a").First().Attr("href")
+		path, articleExists := s.Find(".publicItem_body a").First().Attr("href")
 		URL := t.appendBaseHostToPath(path, articleExists)
 
 		// Collect tag
@@ -87,20 +86,20 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 		}
 
 		a := Article{
-			Title: title,
-			Path: path,
-			URL:  URL,
-			Tags: tags,
-			UserName:    userName,
-			UserPath:    userPath,
-			UserURL:     userURL,
-			StockCount:  stockCount,
+			Title:      title,
+			Path:       path,
+			URL:        URL,
+			Tags:       tags,
+			UserName:   userName,
+			UserPath:   userPath,
+			UserURL:    userURL,
+			StockCount: stockCount,
 		}
 		articles = append(articles, a)
 
 	})
 
-  return articles, nil
+	return articles, nil
 }
 
 func (t *Explore) appendBaseHostToPath(address string, exists bool) *url.URL {
