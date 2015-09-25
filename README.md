@@ -14,6 +14,10 @@ It is go gettable
 
     $ go get github.com/high5/go-qiita-explore
 
+update
+
+    $ go get -u github.com/high5/go-qiita-explore		
+
 (optional) to run unit / example tests:
 
     $ cd $GOPATH/src/github.com/high5/go-qiita-explore
