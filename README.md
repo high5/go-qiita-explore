@@ -39,13 +39,13 @@ import (
 
 func main() {
 	explore := explore.NewExplore()
-	articles, err := explore.GetStocks("Ruby") // or explore.GetStocks("Ruby", 1)
+	articles, err := explore.GetStocks("Ruby")
 	if err != nil {
-    log.Fatal(err)
-  }
+		log.Fatal(err)
+	}
 	for index, article := range articles {
-    if index == 0 {
-      fmt.Println("------------------------------------------------------------------------------")
+		if index == 0 {
+			fmt.Println("------------------------------------------------------------------------------")
 		}
 		fmt.Printf("title:    %s \n", article.Title)
 		fmt.Printf("url:      %s \n", article.URL.String())
@@ -57,7 +57,7 @@ func main() {
 			fmt.Printf("tag%d:     %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
 		}
 		fmt.Println("------------------------------------------------------------------------------")
-  }
+	}
 }
 ```
 
@@ -75,13 +75,13 @@ import (
 
 func main() {
 	explore := explore.NewExplore()
-	articles, err := explore.GetItems("JavaScript", 2)
+	articles, err := explore.GetItems("JavaScript", 1)
 	if err != nil {
-    log.Fatal(err)
-  }
+		log.Fatal(err)
+	}
 	for index, article := range articles {
-    if index == 0 {
-      fmt.Println("------------------------------------------------------------------------------")
+		if index == 0 {
+			fmt.Println("------------------------------------------------------------------------------")
 		}
 		fmt.Printf("title:    %s \n", article.Title)
 		fmt.Printf("url:      %s \n", article.URL.String())
@@ -93,7 +93,7 @@ func main() {
 			fmt.Printf("tag%d:     %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
 		}
 		fmt.Println("------------------------------------------------------------------------------")
-  }
+	}
 }
 ```
 
