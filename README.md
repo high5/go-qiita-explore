@@ -2,7 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/high5/go-qiita-explore?status.svg)](https://godoc.org/github.com/high5/go-qiita-explore)
 
-A package to retrieve [newly posted articles](http://qiita.com/tags/{tag}/items) and [recently stocked articles](http://qiita.com/tags/{tag}/stocks) from Github written in [golang](https://golang.org/).
+A package to retrieve newly posted articles(http://qiita.com/tags/{tag}/items) and recently stocked articles(http://qiita.com/tags/{tag}/stocks) from Github written in [golang](https://golang.org/).
 
 This package were inspired by [andygrunwald/go-trending](https://github.com/andygrunwald/go-trending) (Go)
 
