@@ -40,7 +40,7 @@ type Explore struct {
 // UserPath is path of the user who posted the article.
 // User is the http address of the user page of the article reflected as url.URL datastructure like "http://qiita.com/yuku_t".
 // StockCount is the number of qiita stock.
-// CreateTime is the timestamp of article created.
+// CreatedTime is the timestamp of article created.
 type Article struct {
 	Title       string
 	Path        string
