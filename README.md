@@ -51,14 +51,15 @@ func main() {
 		if index == 0 {
 			fmt.Println("------------------------------------------------------------------------------")
 		}
-		fmt.Printf("title:    %s \n", article.Title)
-		fmt.Printf("url:      %s \n", article.URL.String())
-		fmt.Printf("user:     %s \n", article.UserName)
-		fmt.Printf("user_url: %s \n", article.UserURL.String())
-		fmt.Printf("stock:    %d \n", article.StockCount)
+    fmt.Printf("title:        %s \n", article.Title)
+		fmt.Printf("url:          %s \n", article.URL.String())
+		fmt.Printf("user:         %s \n", article.UserName)
+		fmt.Printf("user_url:     %s \n", article.UserURL.String())
+		fmt.Printf("stock:        %d \n", article.StockCount)
+		fmt.Printf("created_time: %s \n", article.CreatedTime.Format("2006-01-02"))
 		for index, tag := range article.Tags {
 			tagNo := index + 1
-			fmt.Printf("tag%d:     %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
+			fmt.Printf("tag%d:         %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
 		}
 		fmt.Println("------------------------------------------------------------------------------")
 	}
@@ -87,14 +88,15 @@ func main() {
 		if index == 0 {
 			fmt.Println("------------------------------------------------------------------------------")
 		}
-		fmt.Printf("title:    %s \n", article.Title)
-		fmt.Printf("url:      %s \n", article.URL.String())
-		fmt.Printf("user:     %s \n", article.UserName)
-		fmt.Printf("user_url: %s \n", article.UserURL.String())
-		fmt.Printf("stock:    %d \n", article.StockCount)
+    fmt.Printf("title:        %s \n", article.Title)
+		fmt.Printf("url:          %s \n", article.URL.String())
+		fmt.Printf("user:         %s \n", article.UserName)
+		fmt.Printf("user_url:     %s \n", article.UserURL.String())
+		fmt.Printf("stock:        %d \n", article.StockCount)
+		fmt.Printf("created_time: %s \n", article.CreatedTime.Format("2006-01-02"))
 		for index, tag := range article.Tags {
 			tagNo := index + 1
-			fmt.Printf("tag%d:     %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
+			fmt.Printf("tag%d:         %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
 		}
 		fmt.Println("------------------------------------------------------------------------------")
 	}

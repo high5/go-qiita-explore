@@ -3,6 +3,7 @@ package explore
 import (
 	"github.com/PuerkitoBio/goquery"
 	"net/url"
+	"time"
 )
 
 // Internal used constants related to qiita`s website / structure.
@@ -39,13 +40,15 @@ type Explore struct {
 // UserPath is path of the user who posted the article.
 // User is the http address of the user page of the article reflected as url.URL datastructure like "http://qiita.com/yuku_t".
 // StockCount is the number of qiita stock.
+// CreateTime is the timestamp of article created.
 type Article struct {
-	Title      string
-	Path       string
-	URL        *url.URL
-	Tags       []string
-	UserName   string
-	UserPath   string
-	UserURL    *url.URL
-	StockCount int
+	Title       string
+	Path        string
+	URL         *url.URL
+	Tags        []string
+	UserName    string
+	UserPath    string
+	UserURL     *url.URL
+	StockCount  int
+	CreatedTime time.Time
 }

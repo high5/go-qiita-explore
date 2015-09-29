@@ -5,8 +5,12 @@ package explore
 import (
 	"github.com/PuerkitoBio/goquery"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
+	//"fmt"
+	//"reflect"
+	"time"
 )
 
 // NewExplore is the main entry point of the explore package.
@@ -27,26 +31,26 @@ func NewExplore() *Explore {
 // GetStocks provides a slice of Article(recently stocked) filtered by the given tag and page.
 // tag can be filtered by applying a tag by your choice. The input must be a known tag by Qiita.
 // page can be filtered by applying by one page of pagers. If an empty int will be applied first page (1) will be the default.
-func (t *Explore) GetStocks(tag string, page ...int) ([]Article, error) {
+func (e *Explore) GetStocks(tag string, page ...int) ([]Article, error) {
 	var pageQuery int = 1
 	if len(page) > 0 {
 		pageQuery = page[0]
 	}
-	return t.getArticles(tag, "stocks", pageQuery)
+	return e.getArticles(tag, "stocks", pageQuery)
 }
 
 // GetItems provides a slice of Article(articles newly posted) filtered by the given tag and page.
 // tag can be filtered by applying a tag by your choice. The input must be a known tag by Qiita.
 // page can be filtered by applying by one page of pagers. If an empty int will be applied first page (1) will be the default.
-func (t *Explore) GetItems(tag string, page ...int) ([]Article, error) {
+func (e *Explore) GetItems(tag string, page ...int) ([]Article, error) {
 	var pageQuery int = 1
 	if len(page) > 0 {
 		pageQuery = page[0]
 	}
-	return t.getArticles(tag, "items", pageQuery)
+	return e.getArticles(tag, "items", pageQuery)
 }
 
-func (t *Explore) getArticles(tag string, category string, page ...int) ([]Article, error) {
+func (e *Explore) getArticles(tag string, category string, page ...int) ([]Article, error) {
 	var articles []Article
 
 	var pageQuery int = 1
@@ -55,7 +59,7 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 		pageQuery = page[0]
 	}
 
-	u, err := t.generateURL(tag, category, pageQuery)
+	u, err := e.generateURL(tag, category, pageQuery)
 	if err != nil {
 		return articles, err
 	}
@@ -66,9 +70,9 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 	}
 
 	doc.Find("article").Each(func(i int, s *goquery.Selection) {
-		title := t.trim(s.Find(".publicItem_body a").First().Text())
+		title := e.trim(s.Find(".publicItem_body a").First().Text())
 		path, articleExists := s.Find(".publicItem_body a").First().Attr("href")
-		URL := t.appendBaseHostToPath(path, articleExists)
+		URL := e.appendBaseHostToPath(path, articleExists)
 
 		// Collect tag
 		var tags []string
@@ -76,24 +80,31 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 			tags = append(tags, s.Text())
 		})
 
-		userName := t.trim(s.Find(".publicItem_status a").Text())
-		userPath, userExists := s.Find(".publicItem_status a").First().Attr("href")
-		userURL := t.appendBaseHostToPath(userPath, userExists)
+		r := regexp.MustCompile(`\d{4}/\d{2}/\d{2}`)
+		dates := r.FindStringSubmatch(s.Find(".publicItem_status").Text())
+		dateStr := string(dates[0])
+		layOut := "2006/01/02"
+		createdTime, _ := time.Parse(layOut, dateStr)
 
-		stockCount, err := strconv.Atoi(t.trim(s.Find(".publicItem_stockCount").Text()))
+		userName := e.trim(s.Find(".publicItem_status a").Text())
+		userPath, userExists := s.Find(".publicItem_status a").First().Attr("href")
+		userURL := e.appendBaseHostToPath(userPath, userExists)
+
+		stockCount, err := strconv.Atoi(e.trim(s.Find(".publicItem_stockCount").Text()))
 		if err != nil {
 			stockCount = 0
 		}
 
 		a := Article{
-			Title:      title,
-			Path:       path,
-			URL:        URL,
-			Tags:       tags,
-			UserName:   userName,
-			UserPath:   userPath,
-			UserURL:    userURL,
-			StockCount: stockCount,
+			Title:       title,
+			Path:        path,
+			URL:         URL,
+			Tags:        tags,
+			UserName:    userName,
+			UserPath:    userPath,
+			UserURL:     userURL,
+			StockCount:  stockCount,
+			CreatedTime: createdTime,
 		}
 		articles = append(articles, a)
 
@@ -102,7 +113,7 @@ func (t *Explore) getArticles(tag string, category string, page ...int) ([]Artic
 	return articles, nil
 }
 
-func (t *Explore) appendBaseHostToPath(address string, exists bool) *url.URL {
+func (e *Explore) appendBaseHostToPath(address string, exists bool) *url.URL {
 	if exists == false {
 		return nil
 	}
@@ -117,7 +128,7 @@ func (t *Explore) appendBaseHostToPath(address string, exists bool) *url.URL {
 	return u
 }
 
-func (t *Explore) trim(name string) string {
+func (e *Explore) trim(name string) string {
 	trimmedNameParts := []string{}
 
 	nameParts := strings.Split(name, "\n")
@@ -128,7 +139,7 @@ func (t *Explore) trim(name string) string {
 	return strings.Join(trimmedNameParts, "")
 }
 
-func (t *Explore) generateURL(tag string, category string, page int) (*url.URL, error) {
+func (e *Explore) generateURL(tag string, category string, page int) (*url.URL, error) {
 	parseURL := baseHost + basePath + tag + "/" + category + "?page=" + strconv.Itoa(page)
 
 	u, err := url.Parse(parseURL)
