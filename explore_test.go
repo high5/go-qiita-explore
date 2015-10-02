@@ -8,25 +8,29 @@ import (
 
 func ExampleExplore_GetStocks() {
 	explore := explore.NewExplore()
-	articles, err := explore.GetStocks("Ruby")
+	mainTag := "Ruby"
+	articles, err := explore.GetStocks(mainTag)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for index, article := range articles {
-		if index == 0 {
-			fmt.Println("------------------------------------------------------------------------------")
+
+	existsTag := true
+
+	for _, article := range articles {
+		for _, tag := range article.Tags {
+			if tag != mainTag {
+				existsTag = false
+			} else {
+				existsTag = true
+				break
+			}
 		}
-		fmt.Printf("title:        %s \n", article.Title)
-		fmt.Printf("url:          %s \n", article.URL.String())
-		fmt.Printf("user:         %s \n", article.UserName)
-		fmt.Printf("user_url:     %s \n", article.UserURL.String())
-		fmt.Printf("stock:        %d \n", article.StockCount)
-		fmt.Printf("created_time: %s \n", article.CreatedTime.Format("2006-01-02"))
-		for index, tag := range article.Tags {
-			tagNo := index + 1
-			fmt.Printf("tag%d:         %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
-		}
-		fmt.Println("------------------------------------------------------------------------------")
+	}
+
+	if len(articles) > 0 && existsTag == true {
+		fmt.Println("Articles (filtered by Ruby) recieved.")
+	} else {
+		fmt.Printf("Number of articles recieved: %d (filtered by Ruby %v)", len(articles), existsTag)
 	}
 
 	// Output: Articles (filtered by Ruby) recieved.
@@ -34,25 +38,29 @@ func ExampleExplore_GetStocks() {
 
 func ExampleExplore_GetItems() {
 	explore := explore.NewExplore()
-	articles, err := explore.GetItems("JavaScript", 1)
+	mainTag := "JavaScript"
+	articles, err := explore.GetItems(mainTag, 1)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for index, article := range articles {
-		if index == 0 {
-			fmt.Println("------------------------------------------------------------------------------")
+
+	existsTag := true
+
+	for _, article := range articles {
+		for _, tag := range article.Tags {
+			if tag != mainTag {
+				existsTag = false
+			} else {
+				existsTag = true
+				break
+			}
 		}
-		fmt.Printf("title:        %s \n", article.Title)
-		fmt.Printf("url:          %s \n", article.URL.String())
-		fmt.Printf("user:         %s \n", article.UserName)
-		fmt.Printf("user_url:     %s \n", article.UserURL.String())
-		fmt.Printf("stock:        %d \n", article.StockCount)
-		fmt.Printf("created_time: %s \n", article.CreatedTime.Format("2006-01-02"))
-		for index, tag := range article.Tags {
-			tagNo := index + 1
-			fmt.Printf("tag%d:         %s (http://qiita.com/tags/%s)\n", tagNo, tag, tag)
-		}
-		fmt.Println("------------------------------------------------------------------------------")
+	}
+
+	if len(articles) > 0 && existsTag == true {
+		fmt.Println("Articles (filtered by JavaScript) recieved.")
+	} else {
+		fmt.Printf("Number of articles recieved: %d (filtered by JavaScript %v)", len(articles), existsTag)
 	}
 
 	// Output: Articles (filtered by JavaScript) recieved.
